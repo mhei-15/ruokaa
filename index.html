@@ -65,9 +65,13 @@ h1{margin:0;font-size:30px;line-height:1.1;font-weight:800;letter-spacing:-.02em
 .hb{display:flex;gap:10px;flex-wrap:wrap}
 .hbtn{position:relative;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:16px;background:#fff;color:var(--ac);font-size:14px;font-weight:700}
 .hbtn.ghost{background:rgba(255,255,255,.2);color:#fff}
-.hero .sg{display:flex;flex-direction:column;gap:10px;padding:12px 14px;border-radius:16px;background:rgba(255,255,255,.14)}
-.hero .sg .sl{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;opacity:.85}
-.hero .sg .sn{font-size:20px;font-weight:800;line-height:1.2}
+.sgc{background:var(--card);border-radius:18px;box-shadow:var(--sh);padding:14px 14px 14px 12px;margin-bottom:14px}
+.sgc .rt{padding:0;min-height:0}
+.sgc .sh{display:flex;align-items:center;justify-content:space-between;margin:-6px -6px 4px 2px}
+.sgc .sl{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--ac)}
+.sgc .x{width:44px;height:44px;display:grid;place-items:center;color:var(--mu)}
+.sgc .hb{margin-top:14px}
+.sgc .hbtn{background:var(--ac);color:#fff}.sgc .hbtn.ghost{background:var(--fill);color:var(--ink)}
 .pill{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 8px;border-radius:11px;background:var(--soft);color:#14513A;font-size:12px;font-weight:700}
 .hero .pill{background:rgba(255,255,255,.2);color:#fff;height:28px;padding:0 10px;border-radius:14px}
 .sec{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);margin:6px 0 10px}
@@ -125,7 +129,9 @@ nav button.on{color:#fff}
 
 <section id="recipes">
   <div class="hd"><div><h1>Ruokaa</h1><div class="sub" id="sub">Ladataan…</div></div>
-    <button class="sq" id="add" aria-label="Lisää resepti"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
+    <div class="pair"><button class="sqw" id="rnd" aria-label="Arvo satunnainen resepti"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="8.5" cy="8.5" r=".9" fill="currentColor"/><circle cx="15.5" cy="8.5" r=".9" fill="currentColor"/><circle cx="8.5" cy="15.5" r=".9" fill="currentColor"/><circle cx="15.5" cy="15.5" r=".9" fill="currentColor"/><circle cx="12" cy="12" r=".9" fill="currentColor"/></svg></button>
+    <button class="sq" id="add" aria-label="Lisää resepti"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div></div>
+  <div id="sgbox"></div>
   <label class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="fq" type="search" placeholder="Hae reseptejä" aria-label="Hae reseptejä"></label>
   <div class="frow"><div class="chips" id="cp"></div>
     <button class="sqw" id="ftog" aria-label="Lisää suodattimia" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button></div>
@@ -191,7 +197,7 @@ const IC={
   meat:'<path d="M5 10c0-3.5 3-6 7-6s7 2.5 7 6-1.5 6-5.5 8C9.5 20 5 18 5 14z"/><circle cx="11.5" cy="11" r="2"/>',
   fish:'<path d="M3 12c3-5 9-6 13-3l5-3v12l-5-3c-4 3-10 2-13-3z"/><circle cx="8.5" cy="11.5" r=".8" fill="currentColor"/>',
   veg:'<path d="M5 19c0-9 4-14 14-14 0 10-5 14-14 14z"/><path d="M5 19 13 11"/>',
-  dice:'<rect x="3.5" y="3.5" width="17" height="17" rx="4"/><circle cx="8.5" cy="8.5" r=".9" fill="currentColor"/><circle cx="15.5" cy="8.5" r=".9" fill="currentColor"/><circle cx="8.5" cy="15.5" r=".9" fill="currentColor"/><circle cx="15.5" cy="15.5" r=".9" fill="currentColor"/><circle cx="12" cy="12" r=".9" fill="currentColor"/>',
+  x:'<path d="M6 6l12 12M18 6 6 18"/>',
   other:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>'};
 function ic(n,s,w){const t=document.createElement("span");t.innerHTML='<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="'+(w||2.2)+'" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[n]+'</svg>';return t.firstChild}
 const PC={chicken:["#FFF0D2","#9A5B00"],meat:["#FFE1E1","#B42318"],fish:["#DDF0FF","#0B5CAD"],veg:["#DDF5E4","#1B7A3A"],other:["#ECEEF5","#4B5368"]};
@@ -219,6 +225,8 @@ function filtered(){
     return true}).sort(byT);
 }
 
+function metaOf(r){const w=ina(r)?" + "+ina(r)+" odotus":"";
+  return [act(r)?act(r)+" min"+w:null,DIFF[r.difficulty],(CO.find(c=>c[0]===r.category)||[])[1],r.days>1?r.days+" pv":null].filter(Boolean).join(" · ")}
 function renderList(){
   const box=$("#list");box.textContent="";
   if(!loaded)return;
@@ -228,8 +236,7 @@ function renderList(){
   if(!l.length){box.append(h("div",{class:"mu"},"Mikään ei vastaa suodattimia."));return}
   for(const r of l){
     const pk=PC[r.protein]?r.protein:"other",c=PC[pk];
-    const w=ina(r)?" + "+ina(r)+" odotus":"";
-    const meta=[act(r)?act(r)+" min"+w:null,DIFF[r.difficulty],(CO.find(c=>c[0]===r.category)||[])[1],r.days>1?r.days+" pv":null].filter(Boolean).join(" · ");
+    const meta=metaOf(r);
     const rx=h("div",{class:"rx"},r.recipe&&h("div",{class:"rc"},r.recipe),h("div",{class:"nt"},r.notes||"Ei muistiinpanoja."),h("button",{class:"chip",onclick:()=>openEditor(r)},"Muokkaa"));
     rx.hidden=!opened.has(r.id);
     const u=rurl(r);
@@ -261,17 +268,32 @@ async function setDay(k,v){
   }catch(e){fail(e)}
 }
 
-// Random suggestion: skip the 3 most recent distinct dinners cooked before day k (and the day's own pick).
-const sugg={};
-function recentIds(k){const ids=[];
-  for(const d of Object.keys(plan).sort().reverse()){if(d>=k||plan[d].cook===false||!recipes.some(x=>x.id===plan[d].recipeId)||ids.includes(plan[d].recipeId))continue;ids.push(plan[d].recipeId);if(ids.length===3)break}
+// Random suggestion: skip the 3 most recently planned distinct dinners (leftover days don't count).
+let sugg=null;
+function recentIds(){const ids=[];
+  for(const d of Object.keys(plan).sort().reverse()){const id=plan[d].recipeId;if(plan[d].cook===false||ids.includes(id)||!recipes.some(x=>x.id===id))continue;ids.push(id);if(ids.length===3)break}
   return ids}
-function roll(k){
-  const ex=new Set(recentIds(k));if(plan[k])ex.add(plan[k].recipeId);
-  let pool=recipes.filter(r=>!ex.has(r.id));
-  if(pool.length>1&&sugg[k])pool=pool.filter(r=>r.id!==sugg[k]);
-  if(!pool.length){say("Ei ole muita reseptejä ehdotettavaksi. Lisää reseptejä tai kokeile myöhemmin uudelleen.",true);return}
-  sugg[k]=pool[Math.floor(Math.random()*pool.length)].id;renderWeek();
+function roll(){
+  const ex=new Set(recentIds());let pool=recipes.filter(r=>!ex.has(r.id));
+  if(pool.length>1&&sugg)pool=pool.filter(r=>r.id!==sugg);
+  if(!pool.length){say(recipes.length?"Ei ole muita reseptejä ehdotettavaksi kuin kolme viimeksi suunniteltua.":"Lisää ensin reseptejä.",true);return}
+  sugg=pool[Math.floor(Math.random()*pool.length)].id;renderSugg();
+}
+function renderSugg(){
+  const box=$("#sgbox"),fresh=!box.firstChild;box.textContent="";
+  const r=sugg&&recipes.find(x=>x.id===sugg);if(!r){sugg=null;return}
+  const pk=PC[r.protein]?r.protein:"other",c=PC[pk],today=key(new Date());
+  const days=h("select",{class:"ov","aria-label":"Suunnittele "+(r.title||"resepti")+" päivälle",onchange:e=>{const k=e.target.value;if(!k)return;sugg=null;renderSugg();setDay(k,r.id);selK=k;show("w")}},
+    h("option",{value:""},"Valitse päivä"),
+    Array.from({length:14},(_,i)=>{const k=addDays(today,i),p=recOf(k),d=kdate(k);
+      return h("option",{value:k},(i===0?"Tänään":i===1?"Huomenna":d.toLocaleDateString("fi-FI",{weekday:"short",day:"numeric",month:"numeric"}))+(p?" — "+(p.title||"Nimetön"):""))}));
+  const u=rurl(r);
+  box.append(h("div",{class:"sgc"+(fresh?" enter":"")},h("div",{class:"sh"},h("div",{class:"sl"},"Ehdotus"),h("button",{class:"x","aria-label":"Sulje ehdotus",onclick:()=>{sugg=null;renderSugg()}},ic("x",20))),
+    h("div",{class:"rt"},h("div",{class:"bdg",style:"background:"+c[0]+";color:"+c[1]},ic(pk,22,2)),
+      h("div",{class:"tx"},h("span",{class:"rn"},r.title||"Nimetön"),h("span",{class:"rm"},metaOf(r)||"Ei vielä tietoja")),
+      u&&h("a",{class:"ico",href:u,target:"_blank",rel:"noopener noreferrer","aria-label":"Avaa alkuperäinen sivu: "+(r.title||"resepti")},ic("ext",20))),
+    h("div",{class:"hb"},h("div",{class:"hbtn"},"Suunnittele",days),
+      h("button",{class:"hbtn ghost",onclick:roll},ic("rep",18,2.4),"Arvo uudelleen"))));
 }
 const recOf=k=>{const p=plan[k];return p?recipes.find(x=>x.id===p.recipeId):undefined};
 function picker(k,label){
@@ -306,11 +328,7 @@ function hero(k,d){
       btns.append(h("button",{class:"hbtn",onclick:()=>{rc.hidden=!rc.hidden;if(rc.hidden)heroRc.delete(r.id);else heroRc.add(r.id)}},"Näytä resepti"))}
     btns.append(h("div",{class:"hbtn ghost"},"Vaihda",picker(k,"Valitse illallinen: "+heroLabel(k,d))));
   }else btns.append(h("div",{class:"hbtn"},ic("plus",18,2.4),"Valitse resepti",picker(k,"Valitse illallinen: "+heroLabel(k,d))));
-  btns.append(h("button",{class:"hbtn ghost",onclick:()=>roll(k)},ic("dice",18,2.4),"Arvo"));
-  const sr=sugg[k]&&recipes.find(x=>x.id===sugg[k]);let sg=null;
-  if(sr)sg=h("div",{class:"sg"},h("div",{class:"sl"},"Ehdotus"),h("div",{class:"sn"},sr.title||"Nimetön"),
-    h("div",{class:"hb"},h("button",{class:"hbtn",onclick:()=>{delete sugg[k];setDay(k,sr.id)}},"Käytä"),h("button",{class:"hbtn ghost",onclick:()=>roll(k)},ic("rep",18,2.4),"Arvo uudelleen")));
-  return h("div",{class:"hero",id:"d-"+k},top,h("div",{class:"t"},r?(r.title||"Nimetön"):"Ei vielä suunniteltu"),sg,btns,rc);
+  return h("div",{class:"hero",id:"d-"+k},top,h("div",{class:"t"},r?(r.title||"Nimetön"):"Ei vielä suunniteltu"),btns,rc);
 }
 const STEP=50,NDAYS=140,K0=addDays(key(monday(0)),-28);
 const kdate=k=>{const [y,m,d]=k.split("-").map(Number);return new Date(y,m-1,d,12)};
@@ -351,7 +369,7 @@ function renderWeek(){
   sec("Tämä viikko",days.slice(0,7),true);sec("Ensi viikko",days.slice(7),false);
 }
 
-function render(){renderList();if(!$("#week").hidden)renderWeek()}
+function render(){renderList();if(sugg)renderSugg();if(!$("#week").hidden)renderWeek()}
 function moveInd(instant){const i=$("#nav .ind"),b=$("#nav button.on");if(!b||!b.offsetWidth)return;
   if(instant)i.classList.add("nt");i.style.width=b.offsetWidth+"px";i.style.transform="translateX("+b.offsetLeft+"px)";
   if(instant){void i.offsetWidth;i.classList.remove("nt")}}
@@ -392,7 +410,7 @@ chips($("#cd"),[[0,"Kaikki"],[1,"Helppo"],[2,"Enintään keskitaso"]],()=>F.d,v=
 chips($("#cc"),[["","Kaikki"],...CO],()=>F.c,v=>F.c=v);
 
 $("#tR").onclick=()=>show("r");$("#tW").onclick=()=>show("w");
-$("#add").onclick=()=>openEditor(null);$("#save").onclick=save;$("#cancel").onclick=()=>{say("");show("r")};
+$("#add").onclick=()=>openEditor(null);$("#rnd").onclick=roll;$("#save").onclick=save;$("#cancel").onclick=()=>{say("");show("r")};
 $("#del").onclick=async()=>{if(!editing)return;if(delArm!==editing){delArm=editing;$("#del").textContent="Napauta uudelleen poistaaksesi";return}delArm=null;try{await db.doc("recipes/"+editing).delete();show("r")}catch(e){fail(e)}};
 buildStrip();
 window.addEventListener("resize",()=>moveInd(true));
