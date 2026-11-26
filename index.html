@@ -1,13 +1,13 @@
 <!doctype html>
-<html lang="en">
+<html lang="fi">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Dinner planner</title>
+<title>Illallissuunnittelija</title>
 <meta name="theme-color" content="#F5F7F4">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Dinner">
+<meta name="apple-mobile-web-app-title" content="Illallinen">
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -113,53 +113,53 @@ nav button.on{color:#fff}
 <div id="msg" hidden></div>
 
 <section id="recipes">
-  <div class="hd"><div><h1>Recipes</h1><div class="sub" id="sub">Loading…</div></div>
-    <button class="sq" id="add" aria-label="Add recipe"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
-  <label class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="fq" type="search" placeholder="Search recipes" aria-label="Search recipes"></label>
+  <div class="hd"><div><h1>Ruokaa</h1><div class="sub" id="sub">Ladataan…</div></div>
+    <button class="sq" id="add" aria-label="Lisää resepti"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
+  <label class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="fq" type="search" placeholder="Hae reseptejä" aria-label="Hae reseptejä"></label>
   <div class="frow"><div class="chips" id="cp"></div>
-    <button class="sqw" id="ftog" aria-label="More filters" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button></div>
+    <button class="sqw" id="ftog" aria-label="Lisää suodattimia" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button></div>
   <div id="more" hidden>
-    <div class="lbl">Hands-on time</div><div class="chips" id="ct"></div>
-    <div class="lbl">Difficulty</div><div class="chips" id="cd"></div>
-    <div class="lbl">Category</div><div class="chips wrap" id="cc"></div>
+    <div class="lbl">Työaika</div><div class="chips" id="ct"></div>
+    <div class="lbl">Vaikeus</div><div class="chips" id="cd"></div>
+    <div class="lbl">Kategoria</div><div class="chips wrap" id="cc"></div>
   </div>
   <div id="list"></div>
   <details class="bkd">
-    <summary>Backup<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
-    <div class="bk"><button id="bkx">Export backup</button><button id="bki">Import backup</button><input id="bkf" type="file" accept="application/json,.json" hidden></div>
-    <div class="bkn">Backup saves all recipes and the plan to a file.</div>
+    <summary>Varmuuskopio<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6"/></svg></summary>
+    <div class="bk"><button id="bkx">Vie varmuuskopio</button><button id="bki">Tuo varmuuskopio</button><input id="bkf" type="file" accept="application/json,.json" hidden></div>
+    <div class="bkn">Varmuuskopio tallentaa kaikki reseptit ja suunnitelman tiedostoon.</div>
   </details>
 </section>
 
 <section id="week" hidden>
-  <div class="hd"><div><h1 id="wt">This week</h1><div class="sub" id="wl"></div></div></div>
+  <div class="hd"><div><h1 id="wt">Tämä viikko</h1><div class="sub" id="wl"></div></div></div>
   <div class="strip" id="strip"></div>
   <div id="wbody"></div>
 </section>
 
 <section id="editor" hidden>
-  <div class="hd"><h1 id="et">New recipe</h1></div>
-  <label class="l" for="e_t" style="margin-top:4px">Title</label><input class="fld" id="e_t">
-  <label class="l" for="e_u">Link to the original page</label><input class="fld" id="e_u" placeholder="https://…" inputmode="url">
+  <div class="hd"><h1 id="et">Uusi resepti</h1></div>
+  <label class="l" for="e_t" style="margin-top:4px">Nimi</label><input class="fld" id="e_t">
+  <label class="l" for="e_u">Linkki alkuperäiselle sivulle</label><input class="fld" id="e_u" placeholder="https://…" inputmode="url">
   <div class="g3">
-    <div><label class="l" for="e_a">Active min</label><input class="fld" id="e_a" type="number" inputmode="numeric" min="0"></div>
-    <div><label class="l" for="e_ia">Inactive min</label><input class="fld" id="e_ia" type="number" inputmode="numeric" min="0"></div>
-    <div><label class="l" for="e_dy">Lasts days</label><input class="fld" id="e_dy" type="number" inputmode="numeric" min="1" value="1"></div>
+    <div><label class="l" for="e_a">Työaika (min)</label><input class="fld" id="e_a" type="number" inputmode="numeric" min="0"></div>
+    <div><label class="l" for="e_ia">Odotus (min)</label><input class="fld" id="e_ia" type="number" inputmode="numeric" min="0"></div>
+    <div><label class="l" for="e_dy">Riittää (päivää)</label><input class="fld" id="e_dy" type="number" inputmode="numeric" min="1" value="1"></div>
   </div>
-  <div class="l" id="lt">Type</div><div class="chips wrap" id="e_p" role="group" aria-labelledby="lt"></div>
-  <div class="l" id="ld">Difficulty</div><div class="chips wrap" id="e_d" role="group" aria-labelledby="ld"></div>
-  <div class="l" id="lc">Category</div><div class="chips wrap" id="e_c" role="group" aria-labelledby="lc"></div>
-  <label class="l" for="e_n">Notes</label><textarea class="fld" id="e_n"></textarea>
-  <div class="acts"><button class="btn" id="save">Save</button><button class="btn ghost" id="cancel">Cancel</button></div>
-  <button class="btn del" id="del" hidden>Delete recipe</button>
+  <div class="l" id="lt">Tyyppi</div><div class="chips wrap" id="e_p" role="group" aria-labelledby="lt"></div>
+  <div class="l" id="ld">Vaikeus</div><div class="chips wrap" id="e_d" role="group" aria-labelledby="ld"></div>
+  <div class="l" id="lc">Kategoria</div><div class="chips wrap" id="e_c" role="group" aria-labelledby="lc"></div>
+  <label class="l" for="e_n">Muistiinpanot</label><textarea class="fld" id="e_n"></textarea>
+  <div class="acts"><button class="btn" id="save">Tallenna</button><button class="btn ghost" id="cancel">Peruuta</button></div>
+  <button class="btn del" id="del" hidden>Poista resepti</button>
 </section>
 </main>
 
 <div id="scrim"></div>
-<div id="navw"><nav id="nav" aria-label="Main">
+<div id="navw"><nav id="nav" aria-label="Päävalikko">
   <span class="ind" aria-hidden="true"></span>
-  <button id="tR" class="on" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/></svg>Recipes</button>
-  <button id="tW"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Week</button>
+  <button id="tR" class="on" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/></svg>Ruokaa</button>
+  <button id="tW"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Viikko</button>
 </nav></div>
 
 <script>
@@ -177,8 +177,8 @@ const IC={
   other:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>'};
 function ic(n,s,w){const t=document.createElement("span");t.innerHTML='<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="'+(w||2.2)+'" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[n]+'</svg>';return t.firstChild}
 const PC={chicken:["#FFF0D2","#9A5B00"],meat:["#FFE1E1","#B42318"],fish:["#DDF0FF","#0B5CAD"],veg:["#DDF5E4","#1B7A3A"],other:["#ECEEF5","#4B5368"]};
-const DIFF=["","Easy","Medium","Hard"];
-const PO=[["meat","Meat"],["chicken","Chicken"],["fish","Fish"],["veg","Vegetarian"],["other","Other"]],DO=[[1,"Easy"],[2,"Medium"],[3,"Hard"]];
+const DIFF=["","Helppo","Keskitaso","Vaikea"];
+const PO=[["meat","Liha"],["chicken","Kana"],["fish","Kala"],["veg","Kasvis"],["other","Muu"]],DO=[[1,"Helppo"],[2,"Keskitaso"],[3,"Vaikea"]];
 const CO=[["pasta","Pasta"],["herkut","Herkut"],["pitkat","Pitkät"],["erikoiset","Erikoiset"]];
 const catOf=v=>CO.some(c=>c[0]===v)?v:"";
 let db=null,recipes=[],plan={},selK=null,editing=null,loaded=false,delArm=null,mt=0,cur=null,opened=new Set(),ed={p:"meat",d:1,c:""};
@@ -189,7 +189,7 @@ const ina=r=>Number(r.inactive)||0;
 const byT=(a,b)=>(a.title||"").localeCompare(b.title||"");
 const rurl=r=>r&&r.url&&/^https:\/\//i.test(r.url)?r.url:null;
 function say(t,auto){clearTimeout(mt);$("#msg").textContent=t;$("#msg").hidden=!t;if(t&&auto)mt=setTimeout(()=>say(""),5000)}
-const fail=e=>say("Couldn’t save: "+((e&&e.message)||"unknown error")+". Check your connection and the Firestore rules.");
+const fail=e=>say("Tallennus epäonnistui: "+((e&&e.message)||"tuntematon virhe")+". Tarkista yhteys ja Firestore-säännöt.");
 
 function filtered(){
   return recipes.filter(r=>{
@@ -205,22 +205,22 @@ function renderList(){
   const box=$("#list");box.textContent="";
   if(!loaded)return;
   const l=filtered();
-  $("#sub").textContent=recipes.length?(l.length===recipes.length?recipes.length+" saved":l.length+" of "+recipes.length):"No recipes yet";
-  if(!recipes.length){box.append(h("div",{class:"mu"},"Tap + to add your first recipe."));return}
-  if(!l.length){box.append(h("div",{class:"mu"},"Nothing matches these filters."));return}
+  $("#sub").textContent=recipes.length?(l.length===recipes.length?recipes.length+" tallennettu":l.length+" / "+recipes.length):"Ei vielä reseptejä";
+  if(!recipes.length){box.append(h("div",{class:"mu"},"Lisää ensimmäinen reseptisi napauttamalla +."));return}
+  if(!l.length){box.append(h("div",{class:"mu"},"Mikään ei vastaa suodattimia."));return}
   for(const r of l){
     const pk=PC[r.protein]?r.protein:"other",c=PC[pk];
-    const w=ina(r)?" +"+ina(r)+" wait":"";
-    const meta=[act(r)?act(r)+" min"+w:null,DIFF[r.difficulty],(CO.find(c=>c[0]===r.category)||[])[1],r.days>1?r.days+" days":null].filter(Boolean).join(" · ");
-    const rx=h("div",{class:"rx"},h("div",{class:"nt"},r.notes||"No notes yet."),h("button",{class:"chip",onclick:()=>openEditor(r)},"Edit"));
+    const w=ina(r)?" + "+ina(r)+" odotus":"";
+    const meta=[act(r)?act(r)+" min"+w:null,DIFF[r.difficulty],(CO.find(c=>c[0]===r.category)||[])[1],r.days>1?r.days+" pv":null].filter(Boolean).join(" · ");
+    const rx=h("div",{class:"rx"},h("div",{class:"nt"},r.notes||"Ei muistiinpanoja."),h("button",{class:"chip",onclick:()=>openEditor(r)},"Muokkaa"));
     rx.hidden=!opened.has(r.id);
     const u=rurl(r);
     box.append(h("div",{class:"row"},
       h("div",{class:"rt"},
         h("div",{class:"bdg",style:"background:"+c[0]+";color:"+c[1]},ic(pk,22,2)),
         h("button",{class:"tx",onclick:()=>{rx.hidden=!rx.hidden;if(rx.hidden)opened.delete(r.id);else opened.add(r.id)}},
-          h("span",{class:"rn"},r.title||"Untitled"),h("span",{class:"rm"},meta||"No details yet")),
-        u&&h("a",{class:"ico",href:u,target:"_blank",rel:"noopener noreferrer","aria-label":"Open original page for "+(r.title||"recipe")},ic("ext",20))),
+          h("span",{class:"rn"},r.title||"Nimetön"),h("span",{class:"rm"},meta||"Ei vielä tietoja")),
+        u&&h("a",{class:"ico",href:u,target:"_blank",rel:"noopener noreferrer","aria-label":"Avaa alkuperäinen sivu: "+(r.title||"resepti")},ic("ext",20))),
       rx));
   }
 }
@@ -239,7 +239,7 @@ async function setDay(k,v){
     let f=0;
     for(let i=1;i<n;i++){const kk=addDays(k,i);if(plan[kk]&&!skip.has(kk))break;ops.push(db.doc("plan/"+kk).set({recipeId:v,cook:false}));f++}
     await Promise.all(ops);
-    if(n>1)say(f===n-1?"Filled "+f+" leftover day"+(f>1?"s":"")+" after it.":"Filled "+f+" of "+(n-1)+" leftover days; stopped at a day that was already planned.",true);
+    if(n>1)say(f===n-1?"Lisättiin "+f+(f>1?" tähdepäivää":" tähdepäivä")+" perään.":"Lisättiin "+f+"/"+(n-1)+" tähdepäivää; pysähdyttiin jo suunniteltuun päivään.",true);
   }catch(e){fail(e)}
 }
 
@@ -247,34 +247,34 @@ const recOf=k=>{const p=plan[k];return p?recipes.find(x=>x.id===p.recipeId):unde
 function picker(k,label){
   const sorted=[...recipes].sort(byT);
   const sel=h("select",{class:"ov","aria-label":label,onchange:e=>setDay(k,e.target.value)},
-    h("option",{value:""},"Nothing planned"),sorted.map(r=>h("option",{value:r.id},r.title||"Untitled")));
+    h("option",{value:""},"Ei suunniteltu"),sorted.map(r=>h("option",{value:r.id},r.title||"Nimetön")));
   sel.value=recOf(k)?plan[k].recipeId:"";
   return sel;
 }
 function dayRow(k,d,small){
   const p=plan[k],r=recOf(k);
-  const wd=d.toLocaleDateString(undefined,{weekday:"short"}),full=d.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long"});
+  const wd=d.toLocaleDateString("fi-FI",{weekday:"short"}),full=d.toLocaleDateString("fi-FI",{weekday:"long",day:"numeric",month:"long"});
   const dtc=h("div",{class:"dtc"},h("div",{class:"a"},wd),h("div",{class:"b"},String(d.getDate())));
   let body;
   if(r){
-    body=h("div",{class:"body"},h("span",{class:"rn"},r.title||"Untitled"),
-      p.cook===false?h("span",{class:"pill"},ic("rep",12,2.6),"Leftovers"):((act(r)+ina(r))?h("span",{class:"rm"},(act(r)+ina(r))+" min total"):null));
-  }else body=h("div",{class:"body plan"},ic("plus",18,2.4),"Plan dinner");
-  return h("div",{class:"wr"+(small?" sm":"")+(r?"":" empty"),id:"d-"+k},dtc,body,r&&!small?h("div",{class:"chev"},ic("chev",20)):null,picker(k,"Choose dinner for "+full));
+    body=h("div",{class:"body"},h("span",{class:"rn"},r.title||"Nimetön"),
+      p.cook===false?h("span",{class:"pill"},ic("rep",12,2.6),"Tähteet"):((act(r)+ina(r))?h("span",{class:"rm"},(act(r)+ina(r))+" min yhteensä"):null));
+  }else body=h("div",{class:"body plan"},ic("plus",18,2.4),"Suunnittele illallinen");
+  return h("div",{class:"wr"+(small?" sm":"")+(r?"":" empty"),id:"d-"+k},dtc,body,r&&!small?h("div",{class:"chev"},ic("chev",20)):null,picker(k,"Valitse illallinen: "+full));
 }
 function heroLabel(k,d){const t=new Date(),same=d.getMonth()===t.getMonth()&&d.getFullYear()===t.getFullYear();
-  return (k===key(t)?"Tonight · ":"")+d.toLocaleDateString(undefined,{weekday:"short"})+" "+d.getDate()+(same?"":" "+d.toLocaleDateString(undefined,{month:"short"}))}
+  return (k===key(t)?"Tänä iltana · ":"")+d.toLocaleDateString("fi-FI",{weekday:"short"})+" "+d.getDate()+(same?"":" "+d.toLocaleDateString("fi-FI",{month:"short"}))}
 function hero(k,d){
   const p=plan[k],r=recOf(k);
   const top=h("div",{class:"top"},h("span",{class:"k"},heroLabel(k,d)),
-    r&&p.cook===false?h("span",{class:"pill"},ic("rep",14,2.4),"Leftovers"):null);
+    r&&p.cook===false?h("span",{class:"pill"},ic("rep",14,2.4),"Tähteet"):null);
   const btns=h("div",{class:"hb"});
   if(r){
     const u=rurl(r);
-    if(u)btns.append(h("a",{class:"hbtn",href:u,target:"_blank",rel:"noopener noreferrer"},"Open recipe",ic("ext",18,2.4)));
-    btns.append(h("div",{class:"hbtn ghost"},"Change",picker(k,"Choose dinner for "+heroLabel(k,d))));
-  }else btns.append(h("div",{class:"hbtn"},ic("plus",18,2.4),"Pick a recipe",picker(k,"Choose dinner for "+heroLabel(k,d))));
-  return h("div",{class:"hero",id:"d-"+k},top,h("div",{class:"t"},r?(r.title||"Untitled"):"Nothing planned yet"),btns);
+    if(u)btns.append(h("a",{class:"hbtn",href:u,target:"_blank",rel:"noopener noreferrer"},"Avaa resepti",ic("ext",18,2.4)));
+    btns.append(h("div",{class:"hbtn ghost"},"Vaihda",picker(k,"Valitse illallinen: "+heroLabel(k,d))));
+  }else btns.append(h("div",{class:"hbtn"},ic("plus",18,2.4),"Valitse resepti",picker(k,"Valitse illallinen: "+heroLabel(k,d))));
+  return h("div",{class:"hero",id:"d-"+k},top,h("div",{class:"t"},r?(r.title||"Nimetön"):"Ei vielä suunniteltu"),btns);
 }
 const STEP=50,NDAYS=140,K0=addDays(key(monday(0)),-28);
 const kdate=k=>{const [y,m,d]=k.split("-").map(Number);return new Date(y,m-1,d,12)};
@@ -283,7 +283,7 @@ function buildStrip(){
   for(let i=0;i<NDAYS;i++){
     const k=addDays(K0,i),d=kdate(k);
     st.append(h("button",{class:"dy","data-k":k,onclick:()=>{selK=k;renderWeek()}},
-      h("span",{class:"w"},d.toLocaleDateString(undefined,{weekday:"short"})),h("span",{class:"n"},String(d.getDate())),h("span",{class:"dt"})));
+      h("span",{class:"w"},d.toLocaleDateString("fi-FI",{weekday:"short"})),h("span",{class:"n"},String(d.getDate())),h("span",{class:"dt"})));
   }
 }
 function updateStrip(){
@@ -291,8 +291,8 @@ function updateStrip(){
   for(const b of $("#strip").children){
     const k=b.dataset.k,pl=!!recOf(k);
     b.classList.toggle("td",k===today);b.classList.toggle("sl",k===sel);b.classList.toggle("pl",pl);
-    if(!b.dataset.lbl)b.dataset.lbl=kdate(k).toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long"});
-    b.setAttribute("aria-label",b.dataset.lbl+(k===today?", today":"")+(k===sel?", selected":"")+(pl?", dinner planned":", nothing planned"));
+    if(!b.dataset.lbl)b.dataset.lbl=kdate(k).toLocaleDateString("fi-FI",{weekday:"long",day:"numeric",month:"long"});
+    b.setAttribute("aria-label",b.dataset.lbl+(k===today?", tänään":"")+(k===sel?", valittu":"")+(pl?", illallinen suunniteltu":", ei suunniteltu"));
   }
 }
 function stripStart(){
@@ -303,16 +303,16 @@ function renderWeek(){
   const today=key(new Date()),sel=selK||today,mon0=key(monday(0));
   const days=[];for(let i=0;i<14;i++){const k=addDays(mon0,i);days.push([k,kdate(k)])}
   const a=days[0][1],z=days[6][1];
-  $("#wt").textContent="This week";
+  $("#wt").textContent="Tämä viikko";
   $("#wl").textContent=a.getMonth()===z.getMonth()
-    ?a.getDate()+" – "+z.getDate()+" "+z.toLocaleDateString(undefined,{month:"long"})
-    :a.toLocaleDateString(undefined,{day:"numeric",month:"short"})+" – "+z.toLocaleDateString(undefined,{day:"numeric",month:"short"});
+    ?a.getDate()+" – "+z.getDate()+" "+z.toLocaleDateString("fi-FI",{month:"long"})
+    :a.toLocaleDateString("fi-FI",{day:"numeric",month:"short"})+" – "+z.toLocaleDateString("fi-FI",{day:"numeric",month:"short"});
   updateStrip();
   const b=$("#wbody");b.textContent="";
   b.append(hero(sel,kdate(sel)));
   const sec=(label,arr,first)=>{const rest=arr.filter(x=>x[0]!==sel);
     if(rest.length){b.append(h("div",{class:"sec",style:first?"":"margin-top:14px"},label));rest.forEach(x=>b.append(dayRow(x[0],x[1],x[0]<today)))}};
-  sec("This week",days.slice(0,7),true);sec("Next week",days.slice(7),false);
+  sec("Tämä viikko",days.slice(0,7),true);sec("Ensi viikko",days.slice(7),false);
 }
 
 function render(){renderList();if(!$("#week").hidden)renderWeek()}
@@ -333,15 +333,15 @@ function show(t){
 }
 function edChips(el,opts,get,set){el.textContent="";for(const [v,l] of opts)el.append(h("button",{type:"button",class:"chip"+(get()===v?" on":""),onclick:()=>{set(v);edChips(el,opts,get,set)}},l))}
 function openEditor(r){
-  editing=r?r.id:null;delArm=null;$("#et").textContent=r?"Edit recipe":"New recipe";
+  editing=r?r.id:null;delArm=null;$("#et").textContent=r?"Muokkaa reseptiä":"Uusi resepti";
   $("#e_t").value=r?r.title||"":"";$("#e_u").value=r?r.url||"":"";
   $("#e_a").value=r&&act(r)?act(r):"";$("#e_ia").value=r&&ina(r)?ina(r):"";$("#e_dy").value=r&&r.days>1?r.days:1;
   ed.p=r&&PC[r.protein]?r.protein:"meat";ed.d=r&&r.difficulty?r.difficulty:1;ed.c=catOf(r&&r.category);
-  edChips($("#e_p"),PO,()=>ed.p,v=>ed.p=v);edChips($("#e_d"),DO,()=>ed.d,v=>ed.d=v);edChips($("#e_c"),[["","None"],...CO],()=>ed.c,v=>ed.c=v);
-  $("#e_n").value=r?r.notes||"":"";$("#del").hidden=!r;$("#del").textContent="Delete recipe";show("e");
+  edChips($("#e_p"),PO,()=>ed.p,v=>ed.p=v);edChips($("#e_d"),DO,()=>ed.d,v=>ed.d=v);edChips($("#e_c"),[["","Ei mitään"],...CO],()=>ed.c,v=>ed.c=v);
+  $("#e_n").value=r?r.notes||"":"";$("#del").hidden=!r;$("#del").textContent="Poista resepti";show("e");
 }
 async function save(){
-  const title=$("#e_t").value.trim();if(!title){say("Please give the recipe a title.");return}
+  const title=$("#e_t").value.trim();if(!title){say("Anna reseptille nimi.");return}
   let url=$("#e_u").value.trim().replace(/^http:\/\//i,"https://");if(url&&!/^https:\/\//i.test(url))url="https://"+url;
   const data={title,url,active:Math.max(0,Number($("#e_a").value)||0),inactive:Math.max(0,Number($("#e_ia").value)||0),days:Math.max(1,Math.round(Number($("#e_dy").value)||1)),
     difficulty:ed.d,protein:ed.p,category:ed.c,notes:$("#e_n").value.trim()};
@@ -350,14 +350,14 @@ async function save(){
   catch(e){fail(e)}
 }
 function chips(el,opts,get,set){el.textContent="";for(const [v,l] of opts)el.append(h("button",{class:"chip"+(get()===v?" on":""),onclick:()=>{set(v);chips(el,opts,get,set);renderList()}},l))}
-chips($("#cp"),[["","All"],["meat","Meat"],["chicken","Chicken"],["fish","Fish"],["veg","Veg"],["other","Other"]],()=>F.p,v=>F.p=v);
-chips($("#ct"),[[0,"Any"],[15,"≤ 15 min"],[30,"≤ 30 min"],[45,"≤ 45 min"]],()=>F.t,v=>F.t=v);
-chips($("#cd"),[[0,"Any"],[1,"Easy"],[2,"Up to medium"]],()=>F.d,v=>F.d=v);
-chips($("#cc"),[["","Any"],...CO],()=>F.c,v=>F.c=v);
+chips($("#cp"),[["","Kaikki"],["meat","Liha"],["chicken","Kana"],["fish","Kala"],["veg","Kasvis"],["other","Muu"]],()=>F.p,v=>F.p=v);
+chips($("#ct"),[[0,"Kaikki"],[15,"≤ 15 min"],[30,"≤ 30 min"],[45,"≤ 45 min"]],()=>F.t,v=>F.t=v);
+chips($("#cd"),[[0,"Kaikki"],[1,"Helppo"],[2,"Enintään keskitaso"]],()=>F.d,v=>F.d=v);
+chips($("#cc"),[["","Kaikki"],...CO],()=>F.c,v=>F.c=v);
 
 $("#tR").onclick=()=>show("r");$("#tW").onclick=()=>show("w");
 $("#add").onclick=()=>openEditor(null);$("#save").onclick=save;$("#cancel").onclick=()=>{say("");show("r")};
-$("#del").onclick=async()=>{if(!editing)return;if(delArm!==editing){delArm=editing;$("#del").textContent="Tap again to delete";return}delArm=null;try{await db.doc("recipes/"+editing).delete();show("r")}catch(e){fail(e)}};
+$("#del").onclick=async()=>{if(!editing)return;if(delArm!==editing){delArm=editing;$("#del").textContent="Napauta uudelleen poistaaksesi";return}delArm=null;try{await db.doc("recipes/"+editing).delete();show("r")}catch(e){fail(e)}};
 buildStrip();
 window.addEventListener("resize",()=>moveInd(true));
 if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>moveInd(true));
@@ -371,14 +371,14 @@ $("#bkx").onclick=()=>{
   const data={app:"dinner-planner",version:1,exported:new Date().toISOString(),recipes,plan};
   const a=h("a",{href:URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"})),download:"dinner-planner-backup-"+todayStr()+".json"});
   document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
-  say("Backup downloaded: "+recipes.length+" recipes, "+Object.keys(plan).length+" planned days.",true);
+  say("Varmuuskopio ladattu: "+recipes.length+" reseptiä, "+Object.keys(plan).length+" suunniteltua päivää.",true);
 };
-$("#bki").onclick=()=>{if(!db){say("Not connected yet.");return}$("#bkf").click()};
+$("#bki").onclick=()=>{if(!db){say("Ei yhteyttä vielä.");return}$("#bkf").click()};
 $("#bkf").onchange=async e=>{
   const f=e.target.files[0];e.target.value="";if(!f)return;
   try{
     const d=JSON.parse(await f.text());
-    if(!d||d.app!=="dinner-planner"||!Array.isArray(d.recipes))throw new Error("This doesn’t look like a backup from this app.");
+    if(!d||d.app!=="dinner-planner"||!Array.isArray(d.recipes))throw new Error("Tämä ei näytä tämän sovelluksen varmuuskopiolta.");
     const idOk=x=>typeof x==="string"&&/^[A-Za-z0-9_-]{1,40}$/.test(x);
     const num=(v,lo,hi)=>Math.min(hi,Math.max(lo,Math.round(Number(v))||lo));
     const str=(v,n)=>String(v==null?"":v).slice(0,n);
@@ -394,19 +394,19 @@ $("#bkf").onchange=async e=>{
       if(!/^\d{4}-\d{2}-\d{2}$/.test(k)||!p||!idOk(p.recipeId))continue;
       db.doc("plan/"+k).set({recipeId:p.recipeId,cook:p.cook!==false});np++;
     }
-    say("Imported "+nr+" recipes and "+np+" planned days. Existing items with the same id were overwritten; nothing was deleted.",true);
-  }catch(err){say("Import failed: "+((err&&err.message)||"unknown error"))}
+    say("Tuotiin "+nr+" reseptiä ja "+np+" suunniteltua päivää. Samalla tunnisteella olevat korvattiin; mitään ei poistettu.",true);
+  }catch(err){say("Tuonti epäonnistui: "+((err&&err.message)||"tuntematon virhe"))}
 };
 
 // ---- Firebase / Firestore ----
 (async()=>{
   const FB="https://www.gstatic.com/firebasejs/10.14.1/";
-  const timer=setTimeout(()=>{if(!loaded)say("Can’t reach the data yet. Check your connection.")},10000);
+  const timer=setTimeout(()=>{if(!loaded)say("Tietoihin ei saada yhteyttä vielä. Tarkista yhteys.")},10000);
   const stop=m=>{clearTimeout(timer);say(m);$("#sub").textContent=""};
   try{
     let cfg;
-    try{cfg=(await import("./firebase-config.js")).firebaseConfig}catch(e){stop("Setup needed: firebase-config.js is missing. See the setup guide.");return}
-    if(!cfg||!cfg.projectId||/PASTE|YOUR_/i.test(JSON.stringify(cfg))){stop("Setup needed: paste your Firebase settings into firebase-config.js. See the setup guide.");return}
+    try{cfg=(await import("./firebase-config.js")).firebaseConfig}catch(e){stop("Asetus puuttuu: firebase-config.js puuttuu. Katso asennusohje.");return}
+    if(!cfg||!cfg.projectId||/PASTE|YOUR_/i.test(JSON.stringify(cfg))){stop("Asetus puuttuu: liitä Firebase-asetukset tiedostoon firebase-config.js. Katso asennusohje.");return}
     const [{initializeApp},fs]=await Promise.all([import(FB+"firebase-app.js"),import(FB+"firebase-firestore.js")]);
     const app=initializeApp(cfg);
     let store;
@@ -418,10 +418,10 @@ $("#bkf").onchange=async e=>{
       doc:path=>({set:d=>w(fs.setDoc(fs.doc(store,path),d)),update:d=>w(fs.updateDoc(fs.doc(store,path),d)),delete:()=>w(fs.deleteDoc(fs.doc(store,path)))}),
       collection:c=>({add:d=>w(fs.addDoc(fs.collection(store,c),d)),onSnapshot:(f,er)=>fs.onSnapshot(fs.collection(store,c),f,er)})
     };
-    const err=e=>say("Data error: "+((e&&e.message)||"unknown"));
-    db.collection("recipes").onSnapshot(s=>{recipes=s.docs.map(d=>({id:d.id,...d.data()}));loaded=true;clearTimeout(timer);if($("#msg").textContent.startsWith("Can’t reach"))say("");render()},err);
+    const err=e=>say("Tietovirhe: "+((e&&e.message)||"tuntematon"));
+    db.collection("recipes").onSnapshot(s=>{recipes=s.docs.map(d=>({id:d.id,...d.data()}));loaded=true;clearTimeout(timer);if($("#msg").textContent.startsWith("Tietoihin ei saada"))say("");render()},err);
     db.collection("plan").onSnapshot(s=>{plan={};s.docs.forEach(d=>{plan[d.id]={recipeId:d.data().recipeId,cook:d.data().cook}});render()},err);
-  }catch(e){stop("Couldn’t start: "+((e&&e.message)||"unknown error"))}
+  }catch(e){stop("Käynnistys epäonnistui: "+((e&&e.message)||"tuntematon virhe"))}
 })();
 </script>
 </body>

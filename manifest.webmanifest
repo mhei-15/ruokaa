@@ -1,6 +1,6 @@
 {
-  "name": "Dinner planner",
-  "short_name": "Dinner",
+  "name": "Illallissuunnittelija",
+  "short_name": "Illallinen",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
