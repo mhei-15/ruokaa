@@ -1,0 +1,415 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dinner planner</title>
+<meta name="theme-color" content="#F5F7F4">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Dinner">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" href="icon-192.png">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@500;600;700;800&amp;display=swap" rel="stylesheet">
+<style>
+:root{color-scheme:light;--bg:#F5F7F4;--card:#fff;--ink:#12141C;--mu:#5B655E;--ac:#1F5F46;--soft:#E4F1EA;--fill:#EAEEE9;--sh:0 1px 2px rgba(18,20,28,.06)}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{margin:0;background:var(--bg);color:var(--ink);font:500 16px/1.4 "Manrope",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;-webkit-font-smoothing:antialiased}
+main{max-width:620px;margin:0 auto;padding:calc(28px + env(safe-area-inset-top,0px)) 20px 150px}
+button,input,select,textarea{font:inherit;color:inherit}
+button{border:0;background:none;cursor:pointer;padding:0}
+a{color:inherit;text-decoration:none}
+svg{flex:none}
+.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
+h1{margin:0;font-size:30px;line-height:1.1;font-weight:800;letter-spacing:-.02em}
+.sub{margin-top:2px;font-size:14px;font-weight:500;color:var(--mu);min-height:1.3em}
+.mu{color:var(--mu);font-size:.95rem}
+.sq{width:48px;height:48px;border-radius:16px;background:var(--ac);color:#fff;display:grid;place-items:center;flex:none}
+.sqw{width:44px;height:44px;border-radius:16px;background:var(--card);box-shadow:var(--sh);display:grid;place-items:center;flex:none}
+.sqw.on{background:var(--ac);color:#fff}
+.pair{display:flex;gap:8px}
+.search{display:flex;align-items:center;gap:10px;height:48px;padding:0 16px;border-radius:16px;background:var(--card);box-shadow:var(--sh);color:var(--mu);margin-bottom:14px}
+.search input{flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:16px;color:var(--ink)}
+.search input::placeholder{color:var(--mu);opacity:1}
+.frow{display:flex;align-items:center;gap:8px;margin-bottom:14px}.frow .chips{flex:1;min-width:0}
+.chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none}.chips::-webkit-scrollbar{display:none}
+.chips.wrap{flex-wrap:wrap;overflow:visible}
+.chip{flex:none;height:40px;padding:0 16px;border-radius:20px;background:var(--card);box-shadow:var(--sh);font-size:14px;font-weight:700}
+.chip.on{background:var(--ac);color:#fff}
+.lbl{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);margin:4px 0 8px}
+#more{margin-bottom:14px}#more .chips{margin-bottom:10px}
+.row{background:var(--card);border-radius:18px;box-shadow:var(--sh);margin-bottom:8px}
+.rt{display:flex;align-items:center;gap:12px;min-height:64px;padding:0 6px 0 12px}
+.bdg{flex:none;width:40px;height:40px;border-radius:12px;display:grid;place-items:center}
+.tx{flex:1;min-width:0;text-align:left;padding:10px 0}
+.rn{display:block;font-size:15px;font-weight:700;line-height:1.3;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rm{display:block;font-size:13px;font-weight:500;color:var(--mu);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ico{flex:none;width:44px;height:44px;border-radius:14px;display:grid;place-items:center;color:var(--ac)}
+.rx{padding:0 12px 14px 64px;font-size:14px;color:var(--mu);display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+.rx .nt{flex:1 1 100%}
+.strip{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch;scrollbar-width:none;margin-bottom:14px}.strip::-webkit-scrollbar{display:none}
+.dy{flex:none;width:50px;scroll-snap-align:start;display:flex;flex-direction:column;align-items:center;gap:6px}
+.dy .w{font-size:12px;font-weight:700;color:var(--mu)}
+.dy .n{width:44px;height:44px;border-radius:14px;background:var(--card);display:grid;place-items:center;font-size:16px;font-weight:800;box-shadow:var(--sh)}
+.dy .dt{width:6px;height:6px;border-radius:3px;background:transparent}.dy.pl .dt{background:var(--ac)}
+.dy.td .w,.dy.sl .w{color:var(--ac)}.dy.td .n{background:var(--ac);color:#fff}.dy.sl:not(.td) .n{box-shadow:inset 0 0 0 2px var(--ac)}
+.hero{display:flex;flex-direction:column;gap:14px;padding:20px;border-radius:26px;background:var(--ac);color:#fff;margin-bottom:18px}
+.hero .top{display:flex;align-items:center;justify-content:space-between}
+.hero .k{font-size:13px;font-weight:700;letter-spacing:.05em;text-transform:uppercase}
+.hero .t{font-size:26px;line-height:1.15;font-weight:800;letter-spacing:-.02em}
+.hb{display:flex;gap:10px;flex-wrap:wrap}
+.hbtn{position:relative;display:inline-flex;align-items:center;gap:8px;height:44px;padding:0 18px;border-radius:16px;background:#fff;color:var(--ac);font-size:14px;font-weight:700}
+.hbtn.ghost{background:rgba(255,255,255,.2);color:#fff}
+.pill{display:inline-flex;align-items:center;gap:5px;height:22px;padding:0 8px;border-radius:11px;background:var(--soft);color:#14513A;font-size:12px;font-weight:700}
+.hero .pill{background:rgba(255,255,255,.2);color:#fff;height:28px;padding:0 10px;border-radius:14px}
+.sec{font-size:12px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu);margin:6px 0 10px}
+.wr{position:relative;display:flex;align-items:center;gap:12px;min-height:64px;padding:0 6px 0 12px;margin-bottom:8px;border-radius:18px;background:var(--card);box-shadow:var(--sh)}
+.wr.sm{min-height:56px}
+.wr.empty{background:transparent;box-shadow:none;border:1.5px dashed #AEB7B0}
+.dtc{flex:none;width:40px;text-align:center}
+.dtc .a{font-size:11px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--mu)}
+.dtc .b{font-size:18px;font-weight:800;line-height:1.1}
+.wr .body{flex:1;min-width:0;display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:8px 0}
+.wr .body .rn{max-width:100%}
+.wr .body.plan{flex-direction:row;align-items:center;gap:8px;color:var(--ac);font-size:15px;font-weight:700}
+.chev{flex:none;width:44px;height:44px;display:grid;place-items:center;color:var(--mu)}
+.ov{position:absolute;top:0;left:0;width:100%;height:100%;opacity:0;cursor:pointer;border:0;padding:0;background:none;font-size:16px}
+.fld{width:100%;border:0;background:var(--card);border-radius:16px;padding:14px 16px;box-shadow:var(--sh);font-size:16px;outline:none}
+.fld:focus{box-shadow:0 0 0 2px var(--ac)}
+textarea.fld{min-height:96px;resize:vertical}
+.l{display:block;font-size:13px;font-weight:700;color:var(--mu);margin:18px 0 8px}
+.g3{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.acts{display:flex;gap:10px;margin-top:24px}
+.btn{flex:1;height:52px;border-radius:99px;background:var(--ac);color:#fff;font-weight:700}
+.btn.ghost{background:var(--card);color:var(--ink);box-shadow:var(--sh)}
+.btn.del{width:100%;margin-top:12px;color:#B42318;background:var(--card);box-shadow:var(--sh)}
+.bk{display:flex;gap:10px;justify-content:center;margin:28px 0 4px}
+.bk button{height:40px;padding:0 16px;border-radius:99px;background:var(--card);color:var(--mu);font-weight:700;font-size:14px;box-shadow:var(--sh)}
+.bkn{text-align:center;font-size:12px;color:var(--mu);margin-top:6px}
+#msg{background:var(--ink);color:#fff;border-radius:16px;padding:12px 16px;margin-bottom:14px;font-size:14px;font-weight:600}
+#scrim{position:fixed;left:0;right:0;bottom:0;height:130px;background:linear-gradient(to bottom,rgba(245,247,244,0),#F5F7F4 70%);pointer-events:none}
+#navw{position:fixed;left:0;right:0;bottom:calc(24px + env(safe-area-inset-bottom,0px));display:flex;justify-content:center;pointer-events:none}
+nav{position:relative;pointer-events:auto;display:flex;gap:4px;padding:6px;border-radius:26px;background:#fff;box-shadow:0 8px 28px rgba(18,20,28,.14)}
+nav .ind{position:absolute;top:6px;left:0;height:48px;width:0;border-radius:20px;background:var(--ac);transition:transform .38s cubic-bezier(.3,.9,.25,1),width .38s cubic-bezier(.3,.9,.25,1);pointer-events:none}
+nav .ind.nt{transition:none}
+nav button{position:relative;z-index:1;display:flex;align-items:center;gap:8px;height:48px;padding:0 22px;border-radius:20px;color:var(--mu);font-size:14px;font-weight:700;transition:color .3s,transform .15s}
+nav button:active{transform:scale(.96)}
+nav button.on{color:#fff}
+.enter{animation:enter .3s cubic-bezier(.2,.8,.2,1) both}
+@keyframes enter{from{opacity:0;transform:translate(var(--dx,0),var(--dy,0))}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion:reduce){.enter{animation:none}}
+[hidden]{display:none!important}
+</style>
+</head>
+<body>
+<main>
+<div id="msg" hidden></div>
+
+<section id="recipes">
+  <div class="hd"><div><h1>Recipes</h1><div class="sub" id="sub">Loading…</div></div>
+    <button class="sq" id="add" aria-label="Add recipe"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button></div>
+  <label class="search"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-3.5-3.5"/></svg><input id="fq" type="search" placeholder="Search recipes" aria-label="Search recipes"></label>
+  <div class="frow"><div class="chips" id="cp"></div>
+    <button class="sqw" id="ftog" aria-label="More filters" aria-expanded="false"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h10M18 7h2M4 17h2M10 17h10"/><circle cx="16" cy="7" r="2"/><circle cx="8" cy="17" r="2"/></svg></button></div>
+  <div id="more" hidden>
+    <div class="lbl">Hands-on time</div><div class="chips" id="ct"></div>
+    <div class="lbl">Difficulty</div><div class="chips" id="cd"></div>
+  </div>
+  <div id="list"></div>
+  <div class="bk"><button id="bkx">Export backup</button><button id="bki">Import backup</button><input id="bkf" type="file" accept="application/json,.json" hidden></div>
+  <div class="bkn">Backup saves all recipes and the plan to a file.</div>
+</section>
+
+<section id="week" hidden>
+  <div class="hd"><div><h1 id="wt">This week</h1><div class="sub" id="wl"></div></div></div>
+  <div class="strip" id="strip"></div>
+  <div id="wbody"></div>
+</section>
+
+<section id="editor" hidden>
+  <div class="hd"><h1 id="et">New recipe</h1></div>
+  <label class="l" for="e_t" style="margin-top:4px">Title</label><input class="fld" id="e_t">
+  <label class="l" for="e_u">Link to the original page</label><input class="fld" id="e_u" placeholder="https://…" inputmode="url">
+  <div class="g3">
+    <div><label class="l" for="e_a">Active min</label><input class="fld" id="e_a" type="number" inputmode="numeric" min="0"></div>
+    <div><label class="l" for="e_ia">Inactive min</label><input class="fld" id="e_ia" type="number" inputmode="numeric" min="0"></div>
+    <div><label class="l" for="e_dy">Lasts days</label><input class="fld" id="e_dy" type="number" inputmode="numeric" min="1" value="1"></div>
+  </div>
+  <div class="l" id="lt">Type</div><div class="chips wrap" id="e_p" role="group" aria-labelledby="lt"></div>
+  <div class="l" id="ld">Difficulty</div><div class="chips wrap" id="e_d" role="group" aria-labelledby="ld"></div>
+  <label class="l" for="e_n">Notes</label><textarea class="fld" id="e_n"></textarea>
+  <div class="acts"><button class="btn" id="save">Save</button><button class="btn ghost" id="cancel">Cancel</button></div>
+  <button class="btn del" id="del" hidden>Delete recipe</button>
+</section>
+</main>
+
+<div id="scrim"></div>
+<div id="navw"><nav id="nav" aria-label="Main">
+  <span class="ind" aria-hidden="true"></span>
+  <button id="tR" class="on" aria-current="page"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 5a2 2 0 0 1 2-2h13v16H6a2 2 0 0 0-2 2z"/><path d="M4 21V5"/></svg>Recipes</button>
+  <button id="tW"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"/><path d="M8 3v4M16 3v4M3 10h18"/></svg>Week</button>
+</nav></div>
+
+<script>
+const $=s=>document.querySelector(s);
+function h(t,a,...k){const e=document.createElement(t);for(const x in a||{}){if(x==="class")e.className=a[x];else if(x.startsWith("on"))e.addEventListener(x.slice(2),a[x]);else e.setAttribute(x,a[x]);}for(const c of k.flat())if(c!=null&&c!==false)e.append(c.nodeType?c:document.createTextNode(c));return e;}
+const IC={
+  plus:'<path d="M12 5v14M5 12h14"/>',
+  ext:'<path d="M7 17 17 7M8 7h9v9"/>',
+  chev:'<path d="m6 9 6 6 6-6"/>',
+  rep:'<path d="M17 3l3 3-3 3"/><path d="M4 11V9a3 3 0 0 1 3-3h13"/><path d="M7 21l-3-3 3-3"/><path d="M20 13v2a3 3 0 0 1-3 3H4"/>',
+  chicken:'<path d="M14.5 4.5a5 5 0 0 1 5 5c0 3-2.5 5-5.5 5l-4-4c0-3 1-6 4.5-6z"/><path d="m10 14-5 5M3.5 17.5l3 3"/>',
+  meat:'<path d="M5 10c0-3.5 3-6 7-6s7 2.5 7 6-1.5 6-5.5 8C9.5 20 5 18 5 14z"/><circle cx="11.5" cy="11" r="2"/>',
+  fish:'<path d="M3 12c3-5 9-6 13-3l5-3v12l-5-3c-4 3-10 2-13-3z"/><circle cx="8.5" cy="11.5" r=".8" fill="currentColor"/>',
+  veg:'<path d="M5 19c0-9 4-14 14-14 0 10-5 14-14 14z"/><path d="M5 19 13 11"/>',
+  other:'<circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/>'};
+function ic(n,s,w){const t=document.createElement("span");t.innerHTML='<svg width="'+s+'" height="'+s+'" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="'+(w||2.2)+'" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">'+IC[n]+'</svg>';return t.firstChild}
+const PC={chicken:["#FFF0D2","#9A5B00"],meat:["#FFE1E1","#B42318"],fish:["#DDF0FF","#0B5CAD"],veg:["#DDF5E4","#1B7A3A"],other:["#ECEEF5","#4B5368"]};
+const DIFF=["","Easy","Medium","Hard"];
+const PO=[["meat","Meat"],["chicken","Chicken"],["fish","Fish"],["veg","Vegetarian"],["other","Other"]],DO=[[1,"Easy"],[2,"Medium"],[3,"Hard"]];
+let db=null,recipes=[],plan={},selK=null,editing=null,loaded=false,delArm=null,mt=0,cur=null,opened=new Set(),ed={p:"meat",d:1};
+const F={q:"",t:0,d:0,p:""};
+const low=s=>String(s||"").toLowerCase().trim();
+const act=r=>Number(r.active!==undefined?r.active:r.time)||0;
+const ina=r=>Number(r.inactive)||0;
+const byT=(a,b)=>(a.title||"").localeCompare(b.title||"");
+const rurl=r=>r&&r.url&&/^https:\/\//i.test(r.url)?r.url:null;
+function say(t,auto){clearTimeout(mt);$("#msg").textContent=t;$("#msg").hidden=!t;if(t&&auto)mt=setTimeout(()=>say(""),5000)}
+const fail=e=>say("Couldn’t save: "+((e&&e.message)||"unknown error")+". Check your connection and the Firestore rules.");
+
+function filtered(){
+  return recipes.filter(r=>{
+    if(F.q&&!low(r.title).includes(low(F.q)))return false;
+    if(F.t&&!(act(r)>0&&act(r)<=F.t))return false;
+    if(F.d&&!(r.difficulty<=F.d))return false;
+    if(F.p&&r.protein!==F.p)return false;
+    return true}).sort(byT);
+}
+
+function renderList(){
+  const box=$("#list");box.textContent="";
+  if(!loaded)return;
+  const l=filtered();
+  $("#sub").textContent=recipes.length?(l.length===recipes.length?recipes.length+" saved":l.length+" of "+recipes.length):"No recipes yet";
+  if(!recipes.length){box.append(h("div",{class:"mu"},"Tap + to add your first recipe."));return}
+  if(!l.length){box.append(h("div",{class:"mu"},"Nothing matches these filters."));return}
+  for(const r of l){
+    const pk=PC[r.protein]?r.protein:"other",c=PC[pk];
+    const w=ina(r)?" +"+ina(r)+" wait":"";
+    const meta=[act(r)?act(r)+" min"+w:null,DIFF[r.difficulty],r.days>1?r.days+" days":null].filter(Boolean).join(" · ");
+    const rx=h("div",{class:"rx"},h("div",{class:"nt"},r.notes||"No notes yet."),h("button",{class:"chip",onclick:()=>openEditor(r)},"Edit"));
+    rx.hidden=!opened.has(r.id);
+    const u=rurl(r);
+    box.append(h("div",{class:"row"},
+      h("div",{class:"rt"},
+        h("div",{class:"bdg",style:"background:"+c[0]+";color:"+c[1]},ic(pk,22,2)),
+        h("button",{class:"tx",onclick:()=>{rx.hidden=!rx.hidden;if(rx.hidden)opened.delete(r.id);else opened.add(r.id)}},
+          h("span",{class:"rn"},r.title||"Untitled"),h("span",{class:"rm"},meta||"No details yet")),
+        u&&h("a",{class:"ico",href:u,target:"_blank",rel:"noopener noreferrer","aria-label":"Open original page for "+(r.title||"recipe")},ic("ext",20))),
+      rx));
+  }
+}
+
+function monday(off){const d=new Date();d.setHours(12,0,0,0);d.setDate(d.getDate()-((d.getDay()+6)%7)+off*7);return d}
+const key=d=>d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0");
+function addDays(k,n){const [y,m,d]=k.split("-").map(Number);return key(new Date(y,m-1,d+n,12))}
+function leftovers(k){const c=plan[k],out=[];if(!c||c.cook===false)return out;
+  for(let i=1;i<21;i++){const n=addDays(k,i),p=plan[n];if(p&&p.recipeId===c.recipeId&&p.cook===false)out.push(n);else break}return out}
+async function setDay(k,v){
+  try{
+    const del=leftovers(k),ops=del.map(n=>db.doc("plan/"+n).delete());
+    if(!v){ops.push(db.doc("plan/"+k).delete());await Promise.all(ops);return}
+    const r=recipes.find(x=>x.id===v),n=Math.max(1,Number(r&&r.days)||1),skip=new Set(del);
+    ops.push(db.doc("plan/"+k).set({recipeId:v,cook:true}));
+    let f=0;
+    for(let i=1;i<n;i++){const kk=addDays(k,i);if(plan[kk]&&!skip.has(kk))break;ops.push(db.doc("plan/"+kk).set({recipeId:v,cook:false}));f++}
+    await Promise.all(ops);
+    if(n>1)say(f===n-1?"Filled "+f+" leftover day"+(f>1?"s":"")+" after it.":"Filled "+f+" of "+(n-1)+" leftover days; stopped at a day that was already planned.",true);
+  }catch(e){fail(e)}
+}
+
+const recOf=k=>{const p=plan[k];return p?recipes.find(x=>x.id===p.recipeId):undefined};
+function picker(k,label){
+  const sorted=[...recipes].sort(byT);
+  const sel=h("select",{class:"ov","aria-label":label,onchange:e=>setDay(k,e.target.value)},
+    h("option",{value:""},"Nothing planned"),sorted.map(r=>h("option",{value:r.id},r.title||"Untitled")));
+  sel.value=recOf(k)?plan[k].recipeId:"";
+  return sel;
+}
+function dayRow(k,d,small){
+  const p=plan[k],r=recOf(k);
+  const wd=d.toLocaleDateString(undefined,{weekday:"short"}),full=d.toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long"});
+  const dtc=h("div",{class:"dtc"},h("div",{class:"a"},wd),h("div",{class:"b"},String(d.getDate())));
+  let body;
+  if(r){
+    body=h("div",{class:"body"},h("span",{class:"rn"},r.title||"Untitled"),
+      p.cook===false?h("span",{class:"pill"},ic("rep",12,2.6),"Leftovers"):((act(r)+ina(r))?h("span",{class:"rm"},(act(r)+ina(r))+" min total"):null));
+  }else body=h("div",{class:"body plan"},ic("plus",18,2.4),"Plan dinner");
+  return h("div",{class:"wr"+(small?" sm":"")+(r?"":" empty"),id:"d-"+k},dtc,body,r&&!small?h("div",{class:"chev"},ic("chev",20)):null,picker(k,"Choose dinner for "+full));
+}
+function heroLabel(k,d){const t=new Date(),same=d.getMonth()===t.getMonth()&&d.getFullYear()===t.getFullYear();
+  return (k===key(t)?"Tonight · ":"")+d.toLocaleDateString(undefined,{weekday:"short"})+" "+d.getDate()+(same?"":" "+d.toLocaleDateString(undefined,{month:"short"}))}
+function hero(k,d){
+  const p=plan[k],r=recOf(k);
+  const top=h("div",{class:"top"},h("span",{class:"k"},heroLabel(k,d)),
+    r&&p.cook===false?h("span",{class:"pill"},ic("rep",14,2.4),"Leftovers"):null);
+  const btns=h("div",{class:"hb"});
+  if(r){
+    const u=rurl(r);
+    if(u)btns.append(h("a",{class:"hbtn",href:u,target:"_blank",rel:"noopener noreferrer"},"Open recipe",ic("ext",18,2.4)));
+    btns.append(h("div",{class:"hbtn ghost"},"Change",picker(k,"Choose dinner for "+heroLabel(k,d))));
+  }else btns.append(h("div",{class:"hbtn"},ic("plus",18,2.4),"Pick a recipe",picker(k,"Choose dinner for "+heroLabel(k,d))));
+  return h("div",{class:"hero",id:"d-"+k},top,h("div",{class:"t"},r?(r.title||"Untitled"):"Nothing planned yet"),btns);
+}
+const STEP=50,NDAYS=140,K0=addDays(key(monday(0)),-28);
+const kdate=k=>{const [y,m,d]=k.split("-").map(Number);return new Date(y,m-1,d,12)};
+function buildStrip(){
+  const st=$("#strip");
+  for(let i=0;i<NDAYS;i++){
+    const k=addDays(K0,i),d=kdate(k);
+    st.append(h("button",{class:"dy","data-k":k,onclick:()=>{selK=k;renderWeek()}},
+      h("span",{class:"w"},d.toLocaleDateString(undefined,{weekday:"short"})),h("span",{class:"n"},String(d.getDate())),h("span",{class:"dt"})));
+  }
+}
+function updateStrip(){
+  const today=key(new Date()),sel=selK||today;
+  for(const b of $("#strip").children){
+    const k=b.dataset.k,pl=!!recOf(k);
+    b.classList.toggle("td",k===today);b.classList.toggle("sl",k===sel);b.classList.toggle("pl",pl);
+    if(!b.dataset.lbl)b.dataset.lbl=kdate(k).toLocaleDateString(undefined,{weekday:"long",day:"numeric",month:"long"});
+    b.setAttribute("aria-label",b.dataset.lbl+(k===today?", today":"")+(k===sel?", selected":"")+(pl?", dinner planned":", nothing planned"));
+  }
+}
+function stripStart(){
+  const sel=selK||key(new Date()),idx=Math.round((kdate(sel)-kdate(K0))/864e5);
+  return idx>=28&&idx<35?28:Math.max(0,Math.min(idx-3,NDAYS-7));
+}
+function renderWeek(){
+  const today=key(new Date()),sel=selK||today,mon0=key(monday(0));
+  const days=[];for(let i=0;i<14;i++){const k=addDays(mon0,i);days.push([k,kdate(k)])}
+  const a=days[0][1],z=days[6][1];
+  $("#wt").textContent="This week";
+  $("#wl").textContent=a.getMonth()===z.getMonth()
+    ?a.getDate()+" – "+z.getDate()+" "+z.toLocaleDateString(undefined,{month:"long"})
+    :a.toLocaleDateString(undefined,{day:"numeric",month:"short"})+" – "+z.toLocaleDateString(undefined,{day:"numeric",month:"short"});
+  updateStrip();
+  const b=$("#wbody");b.textContent="";
+  b.append(hero(sel,kdate(sel)));
+  const sec=(label,arr,first)=>{const rest=arr.filter(x=>x[0]!==sel);
+    if(rest.length){b.append(h("div",{class:"sec",style:first?"":"margin-top:14px"},label));rest.forEach(x=>b.append(dayRow(x[0],x[1],x[0]<today)))}};
+  sec("This week",days.slice(0,7),true);sec("Next week",days.slice(7),false);
+}
+
+function render(){renderList();if(!$("#week").hidden)renderWeek()}
+function moveInd(instant){const i=$("#nav .ind"),b=$("#nav button.on");if(!b||!b.offsetWidth)return;
+  if(instant)i.classList.add("nt");i.style.width=b.offsetWidth+"px";i.style.transform="translateX("+b.offsetLeft+"px)";
+  if(instant){void i.offsetWidth;i.classList.remove("nt")}}
+const ORD={r:0,w:1,e:2};
+function anim(el,dx,dy){el.style.setProperty("--dx",dx||"0px");el.style.setProperty("--dy",dy||"0px");el.classList.remove("enter");void el.offsetWidth;el.classList.add("enter")}
+function show(t){
+  const prev=cur;cur=t;
+  $("#recipes").hidden=t!=="r";$("#week").hidden=t!=="w";$("#editor").hidden=t!=="e";
+  $("#navw").hidden=t==="e";$("#scrim").hidden=t==="e";
+  for(const [id,on] of [["#tR",t==="r"],["#tW",t==="w"]]){const b=$(id);b.classList.toggle("on",on);if(on)b.setAttribute("aria-current","page");else b.removeAttribute("aria-current")}
+  moveInd(prev===null||prev==="e");
+  if(t==="w"){$("#strip").scrollLeft=stripStart()*STEP;renderWeek()}if(t==="r")renderList();window.scrollTo(0,0);
+  if(prev&&prev!==t){const el=$(t==="r"?"#recipes":t==="w"?"#week":"#editor");
+    if(t==="e")anim(el,"0px","28px");else if(prev==="e")anim(el);else anim(el,ORD[t]>ORD[prev]?"28px":"-28px")}
+}
+function edChips(el,opts,get,set){el.textContent="";for(const [v,l] of opts)el.append(h("button",{type:"button",class:"chip"+(get()===v?" on":""),onclick:()=>{set(v);edChips(el,opts,get,set)}},l))}
+function openEditor(r){
+  editing=r?r.id:null;delArm=null;$("#et").textContent=r?"Edit recipe":"New recipe";
+  $("#e_t").value=r?r.title||"":"";$("#e_u").value=r?r.url||"":"";
+  $("#e_a").value=r&&act(r)?act(r):"";$("#e_ia").value=r&&ina(r)?ina(r):"";$("#e_dy").value=r&&r.days>1?r.days:1;
+  ed.p=r&&PC[r.protein]?r.protein:"meat";ed.d=r&&r.difficulty?r.difficulty:1;
+  edChips($("#e_p"),PO,()=>ed.p,v=>ed.p=v);edChips($("#e_d"),DO,()=>ed.d,v=>ed.d=v);
+  $("#e_n").value=r?r.notes||"":"";$("#del").hidden=!r;$("#del").textContent="Delete recipe";show("e");
+}
+async function save(){
+  const title=$("#e_t").value.trim();if(!title){say("Please give the recipe a title.");return}
+  let url=$("#e_u").value.trim().replace(/^http:\/\//i,"https://");if(url&&!/^https:\/\//i.test(url))url="https://"+url;
+  const data={title,url,active:Math.max(0,Number($("#e_a").value)||0),inactive:Math.max(0,Number($("#e_ia").value)||0),days:Math.max(1,Math.round(Number($("#e_dy").value)||1)),
+    difficulty:ed.d,protein:ed.p,notes:$("#e_n").value.trim()};
+  say("");
+  try{if(editing)await db.doc("recipes/"+editing).update(data);else await db.collection("recipes").add({...data,added:Date.now()});show("r")}
+  catch(e){fail(e)}
+}
+function chips(el,opts,get,set){el.textContent="";for(const [v,l] of opts)el.append(h("button",{class:"chip"+(get()===v?" on":""),onclick:()=>{set(v);chips(el,opts,get,set);renderList()}},l))}
+chips($("#cp"),[["","All"],["meat","Meat"],["chicken","Chicken"],["fish","Fish"],["veg","Veg"],["other","Other"]],()=>F.p,v=>F.p=v);
+chips($("#ct"),[[0,"Any"],[15,"≤ 15 min"],[30,"≤ 30 min"],[45,"≤ 45 min"]],()=>F.t,v=>F.t=v);
+chips($("#cd"),[[0,"Any"],[1,"Easy"],[2,"Up to medium"]],()=>F.d,v=>F.d=v);
+
+$("#tR").onclick=()=>show("r");$("#tW").onclick=()=>show("w");
+$("#add").onclick=()=>openEditor(null);$("#save").onclick=save;$("#cancel").onclick=()=>{say("");show("r")};
+$("#del").onclick=async()=>{if(!editing)return;if(delArm!==editing){delArm=editing;$("#del").textContent="Tap again to delete";return}delArm=null;try{await db.doc("recipes/"+editing).delete();show("r")}catch(e){fail(e)}};
+buildStrip();
+window.addEventListener("resize",()=>moveInd(true));
+if(document.fonts&&document.fonts.ready)document.fonts.ready.then(()=>moveInd(true));
+$("#fq").oninput=e=>{F.q=e.target.value;renderList()};
+$("#ftog").onclick=()=>{const o=$("#more").hidden;$("#more").hidden=!o;$("#ftog").classList.toggle("on",o);$("#ftog").setAttribute("aria-expanded",String(o))};
+show("r");
+
+// ---- Backup: export / import ----
+const todayStr=()=>key(new Date());
+$("#bkx").onclick=()=>{
+  const data={app:"dinner-planner",version:1,exported:new Date().toISOString(),recipes,plan};
+  const a=h("a",{href:URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"})),download:"dinner-planner-backup-"+todayStr()+".json"});
+  document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(a.href),4000);
+  say("Backup downloaded: "+recipes.length+" recipes, "+Object.keys(plan).length+" planned days.",true);
+};
+$("#bki").onclick=()=>{if(!db){say("Not connected yet.");return}$("#bkf").click()};
+$("#bkf").onchange=async e=>{
+  const f=e.target.files[0];e.target.value="";if(!f)return;
+  try{
+    const d=JSON.parse(await f.text());
+    if(!d||d.app!=="dinner-planner"||!Array.isArray(d.recipes))throw new Error("This doesn’t look like a backup from this app.");
+    const idOk=x=>typeof x==="string"&&/^[A-Za-z0-9_-]{1,40}$/.test(x);
+    const num=(v,lo,hi)=>Math.min(hi,Math.max(lo,Math.round(Number(v))||lo));
+    const str=(v,n)=>String(v==null?"":v).slice(0,n);
+    let nr=0,np=0;
+    for(const r of d.recipes){
+      if(!r||!idOk(r.id)||typeof r.title!=="string"||!r.title.trim())continue;
+      const url=/^https:\/\//i.test(r.url||"")?str(r.url,2000):"";
+      const active=r.active!==undefined?r.active:r.time;
+      db.doc("recipes/"+r.id).set({title:str(r.title,200),url,active:num(active,0,100000),inactive:num(r.inactive,0,100000),days:num(r.days,1,60),
+        difficulty:num(r.difficulty,1,3),protein:PC[r.protein]?r.protein:"other",notes:str(r.notes,5000),added:Number(r.added)||Date.now()});nr++;
+    }
+    for(const [k,p] of Object.entries(d.plan||{})){
+      if(!/^\d{4}-\d{2}-\d{2}$/.test(k)||!p||!idOk(p.recipeId))continue;
+      db.doc("plan/"+k).set({recipeId:p.recipeId,cook:p.cook!==false});np++;
+    }
+    say("Imported "+nr+" recipes and "+np+" planned days. Existing items with the same id were overwritten; nothing was deleted.",true);
+  }catch(err){say("Import failed: "+((err&&err.message)||"unknown error"))}
+};
+
+// ---- Firebase / Firestore ----
+(async()=>{
+  const FB="https://www.gstatic.com/firebasejs/10.14.1/";
+  const timer=setTimeout(()=>{if(!loaded)say("Can’t reach the data yet. Check your connection.")},10000);
+  const stop=m=>{clearTimeout(timer);say(m);$("#sub").textContent=""};
+  try{
+    let cfg;
+    try{cfg=(await import("./firebase-config.js")).firebaseConfig}catch(e){stop("Setup needed: firebase-config.js is missing. See the setup guide.");return}
+    if(!cfg||!cfg.projectId||/PASTE|YOUR_/i.test(JSON.stringify(cfg))){stop("Setup needed: paste your Firebase settings into firebase-config.js. See the setup guide.");return}
+    const [{initializeApp},fs]=await Promise.all([import(FB+"firebase-app.js"),import(FB+"firebase-firestore.js")]);
+    const app=initializeApp(cfg);
+    let store;
+    try{store=fs.initializeFirestore(app,{localCache:fs.persistentLocalCache({tabManager:fs.persistentMultipleTabManager()})})}
+    catch(e){store=fs.getFirestore(app)}
+    // Writes apply locally at once and sync when online; report only real failures (e.g. permissions).
+    const w=p=>{p.catch(fail);return Promise.resolve()};
+    db={
+      doc:path=>({set:d=>w(fs.setDoc(fs.doc(store,path),d)),update:d=>w(fs.updateDoc(fs.doc(store,path),d)),delete:()=>w(fs.deleteDoc(fs.doc(store,path)))}),
+      collection:c=>({add:d=>w(fs.addDoc(fs.collection(store,c),d)),onSnapshot:(f,er)=>fs.onSnapshot(fs.collection(store,c),f,er)})
+    };
+    const err=e=>say("Data error: "+((e&&e.message)||"unknown"));
+    db.collection("recipes").onSnapshot(s=>{recipes=s.docs.map(d=>({id:d.id,...d.data()}));loaded=true;clearTimeout(timer);if($("#msg").textContent.startsWith("Can’t reach"))say("");render()},err);
+    db.collection("plan").onSnapshot(s=>{plan={};s.docs.forEach(d=>{plan[d.id]={recipeId:d.data().recipeId,cook:d.data().cook}});render()},err);
+  }catch(e){stop("Couldn’t start: "+((e&&e.message)||"unknown error"))}
+})();
+</script>
+</body>
+</html>
