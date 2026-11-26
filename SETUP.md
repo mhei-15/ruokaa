@@ -21,13 +21,20 @@ You need: a Google account (for Firebase) and a GitHub account (for hosting).
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /recipes/{id} { allow read, write: if true; }
-    match /plan/{id}    { allow read, write: if true; }
+    match /{document=**} {
+      allow read, write: if request.auth != null
+        && request.auth.token.email == "koti@ruokaa.app";
+    }
   }
 }
 ```
 
-What this means: there are no logins. Anyone who has the link to your app can read and change the recipes and plan. That is fine for a household recipe list as long as you don't post the link publicly. Nothing else in the project is reachable.
+What this means: only the one shared household account (set up in the next step) can read or change data. Anyone with the link just sees a password box.
+
+### 3b. Create the household password
+1. In Firebase open **Build > Authentication**, click **Get started**, then **Sign-in method > Email/Password**, enable it and save.
+2. Open the **Users** tab, click **Add user**, use the email `koti@ruokaa.app` (it does not need to be a real address; it must match `householdEmail` in `firebase-config.js` and the rules above) and choose your password.
+3. Each phone asks for the password once and then stays signed in. To change the password, edit the user in the Users tab.
 
 ## 4. Get your Firebase settings
 1. Click the gear icon, **Project settings**, then scroll to **Your apps**.
@@ -56,5 +63,4 @@ At the bottom of the Recipes tab, open **Backup**. **Export backup** downloads a
 ## Good to know
 - Free limit (Firebase Spark plan): the docs give 20,000 writes and 50,000 reads per day as an example Firestore quota. That is far above household use.
 - The app remembers data on the phone, so it still opens with your recipes when offline, and changes sync when you're back online. The page itself still needs a connection to load the first time.
-- If you ever want a password: the next step would be a household passcode or Firebase sign-in plus stricter rules. Ask me and I'll add it.
 - To update the app later, upload the new `index.html` to the repository again (Add file > Upload files, same name).

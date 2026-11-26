@@ -106,6 +106,12 @@ nav button.on{color:#fff}
 @keyframes enter{from{opacity:0;transform:translate(var(--dx,0),var(--dy,0))}to{opacity:1;transform:none}}
 @media (prefers-reduced-motion:reduce){.enter{animation:none}}
 [hidden]{display:none!important}
+#gate{position:fixed;inset:0;z-index:99;background:var(--bg);display:grid;place-items:center;padding:20px}
+#gate[hidden]{display:none}
+#gate form{width:100%;max-width:320px;display:flex;flex-direction:column;gap:12px}
+#gate input{width:100%;padding:14px 16px;border-radius:14px;border:1px solid var(--fill);background:var(--card);font-size:16px}
+#gate button{padding:14px;border-radius:14px;background:var(--ac);color:#fff;font-weight:700}
+#gate .er{color:#B42318;font-size:14px;min-height:1.3em}
 </style>
 </head>
 <body>
@@ -154,6 +160,11 @@ nav button.on{color:#fff}
   <button class="btn del" id="del" hidden>Poista resepti</button>
 </section>
 </main>
+
+<div id="gate" hidden><form id="gf"><h1>Ruokaa</h1>
+  <input id="gp" type="password" placeholder="Salasana" autocomplete="current-password" aria-label="Salasana" required>
+  <div class="er" id="ge" role="alert"></div>
+  <button id="gb">Avaa</button></form></div>
 
 <div id="scrim"></div>
 <div id="navw"><nav id="nav" aria-label="Päävalikko">
@@ -407,8 +418,19 @@ $("#bkf").onchange=async e=>{
     let cfg;
     try{cfg=(await import("./firebase-config.js")).firebaseConfig}catch(e){stop("Asetus puuttuu: firebase-config.js puuttuu. Katso asennusohje.");return}
     if(!cfg||!cfg.projectId||/PASTE|YOUR_/i.test(JSON.stringify(cfg))){stop("Asetus puuttuu: liitä Firebase-asetukset tiedostoon firebase-config.js. Katso asennusohje.");return}
-    const [{initializeApp},fs]=await Promise.all([import(FB+"firebase-app.js"),import(FB+"firebase-firestore.js")]);
+    const [{initializeApp},fs,au]=await Promise.all([import(FB+"firebase-app.js"),import(FB+"firebase-firestore.js"),import(FB+"firebase-auth.js")]);
     const app=initializeApp(cfg);
+    const auth=au.getAuth(app);
+    // Password gate: shared household account; Firebase keeps the sign-in on this device (IndexedDB).
+    const email=cfg.householdEmail||"koti@ruokaa.app";
+    $("#gf").onsubmit=async ev=>{
+      ev.preventDefault();$("#ge").textContent="";$("#gb").disabled=true;
+      try{await au.signInWithEmailAndPassword(auth,email,$("#gp").value)}
+      catch(e){$("#ge").textContent=/network/.test(e&&e.code)?"Ei yhteyttä.":"Väärä salasana.";$("#gp").select()}
+      $("#gb").disabled=false;
+    };
+    const user=await new Promise(r=>{const u=au.onAuthStateChanged(auth,x=>{if(x){u();r(x)}else{$("#gate").hidden=false;clearTimeout(timer)}})});
+    $("#gate").hidden=true;$("#gp").value="";
     let store;
     try{store=fs.initializeFirestore(app,{localCache:fs.persistentLocalCache({tabManager:fs.persistentMultipleTabManager()})})}
     catch(e){store=fs.getFirestore(app)}

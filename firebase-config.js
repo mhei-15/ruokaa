@@ -5,5 +5,6 @@ export const firebaseConfig = {
   projectId: "ruokaa-19a6a",
   storageBucket: "ruokaa-19a6a.firebasestorage.app",
   messagingSenderId: "314272361708",
-  appId: "1:314272361708:web:5c0cf08be47ee2f0c089c9"
+  appId: "1:314272361708:web:5c0cf08be47ee2f0c089c9",
+  householdEmail: "koti@ruokaa.app"
 };
