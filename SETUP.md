@@ -51,7 +51,7 @@ The repository is public but only holds the app's code. Your recipes live in Fir
 Add a recipe on one phone. It should appear on the other within a second or two.
 
 ## Backups
-In the Recipes tab, **Export backup** downloads a JSON file with all recipes and the plan. **Import backup** loads such a file back. It adds or overwrites items with the same id and never deletes anything. Do an export once in a while.
+At the bottom of the Recipes tab, open **Backup**. **Export backup** downloads a JSON file with all recipes and the plan. **Import backup** loads such a file back. It adds or overwrites items with the same id and never deletes anything. Do an export once in a while.
 
 ## Good to know
 - Free limit (Firebase Spark plan): the docs give 20,000 writes and 50,000 reads per day as an example Firestore quota. That is far above household use.
