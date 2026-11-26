@@ -121,6 +121,7 @@ nav button.on{color:#fff}
   <div id="more" hidden>
     <div class="lbl">Hands-on time</div><div class="chips" id="ct"></div>
     <div class="lbl">Difficulty</div><div class="chips" id="cd"></div>
+    <div class="lbl">Category</div><div class="chips wrap" id="cc"></div>
   </div>
   <div id="list"></div>
   <details class="bkd">
@@ -147,6 +148,7 @@ nav button.on{color:#fff}
   </div>
   <div class="l" id="lt">Type</div><div class="chips wrap" id="e_p" role="group" aria-labelledby="lt"></div>
   <div class="l" id="ld">Difficulty</div><div class="chips wrap" id="e_d" role="group" aria-labelledby="ld"></div>
+  <div class="l" id="lc">Category</div><div class="chips wrap" id="e_c" role="group" aria-labelledby="lc"></div>
   <label class="l" for="e_n">Notes</label><textarea class="fld" id="e_n"></textarea>
   <div class="acts"><button class="btn" id="save">Save</button><button class="btn ghost" id="cancel">Cancel</button></div>
   <button class="btn del" id="del" hidden>Delete recipe</button>
@@ -177,8 +179,10 @@ function ic(n,s,w){const t=document.createElement("span");t.innerHTML='<svg widt
 const PC={chicken:["#FFF0D2","#9A5B00"],meat:["#FFE1E1","#B42318"],fish:["#DDF0FF","#0B5CAD"],veg:["#DDF5E4","#1B7A3A"],other:["#ECEEF5","#4B5368"]};
 const DIFF=["","Easy","Medium","Hard"];
 const PO=[["meat","Meat"],["chicken","Chicken"],["fish","Fish"],["veg","Vegetarian"],["other","Other"]],DO=[[1,"Easy"],[2,"Medium"],[3,"Hard"]];
-let db=null,recipes=[],plan={},selK=null,editing=null,loaded=false,delArm=null,mt=0,cur=null,opened=new Set(),ed={p:"meat",d:1};
-const F={q:"",t:0,d:0,p:""};
+const CO=[["pasta","Pasta"],["herkut","Herkut"],["pitkat","Pitkät"],["erikoiset","Erikoiset"]];
+const catOf=v=>CO.some(c=>c[0]===v)?v:"";
+let db=null,recipes=[],plan={},selK=null,editing=null,loaded=false,delArm=null,mt=0,cur=null,opened=new Set(),ed={p:"meat",d:1,c:""};
+const F={q:"",t:0,d:0,p:"",c:""};
 const low=s=>String(s||"").toLowerCase().trim();
 const act=r=>Number(r.active!==undefined?r.active:r.time)||0;
 const ina=r=>Number(r.inactive)||0;
@@ -193,6 +197,7 @@ function filtered(){
     if(F.t&&!(act(r)>0&&act(r)<=F.t))return false;
     if(F.d&&!(r.difficulty<=F.d))return false;
     if(F.p&&r.protein!==F.p)return false;
+    if(F.c&&r.category!==F.c)return false;
     return true}).sort(byT);
 }
 
@@ -206,7 +211,7 @@ function renderList(){
   for(const r of l){
     const pk=PC[r.protein]?r.protein:"other",c=PC[pk];
     const w=ina(r)?" +"+ina(r)+" wait":"";
-    const meta=[act(r)?act(r)+" min"+w:null,DIFF[r.difficulty],r.days>1?r.days+" days":null].filter(Boolean).join(" · ");
+    const meta=[act(r)?act(r)+" min"+w:null,DIFF[r.difficulty],(CO.find(c=>c[0]===r.category)||[])[1],r.days>1?r.days+" days":null].filter(Boolean).join(" · ");
     const rx=h("div",{class:"rx"},h("div",{class:"nt"},r.notes||"No notes yet."),h("button",{class:"chip",onclick:()=>openEditor(r)},"Edit"));
     rx.hidden=!opened.has(r.id);
     const u=rurl(r);
@@ -331,15 +336,15 @@ function openEditor(r){
   editing=r?r.id:null;delArm=null;$("#et").textContent=r?"Edit recipe":"New recipe";
   $("#e_t").value=r?r.title||"":"";$("#e_u").value=r?r.url||"":"";
   $("#e_a").value=r&&act(r)?act(r):"";$("#e_ia").value=r&&ina(r)?ina(r):"";$("#e_dy").value=r&&r.days>1?r.days:1;
-  ed.p=r&&PC[r.protein]?r.protein:"meat";ed.d=r&&r.difficulty?r.difficulty:1;
-  edChips($("#e_p"),PO,()=>ed.p,v=>ed.p=v);edChips($("#e_d"),DO,()=>ed.d,v=>ed.d=v);
+  ed.p=r&&PC[r.protein]?r.protein:"meat";ed.d=r&&r.difficulty?r.difficulty:1;ed.c=catOf(r&&r.category);
+  edChips($("#e_p"),PO,()=>ed.p,v=>ed.p=v);edChips($("#e_d"),DO,()=>ed.d,v=>ed.d=v);edChips($("#e_c"),[["","None"],...CO],()=>ed.c,v=>ed.c=v);
   $("#e_n").value=r?r.notes||"":"";$("#del").hidden=!r;$("#del").textContent="Delete recipe";show("e");
 }
 async function save(){
   const title=$("#e_t").value.trim();if(!title){say("Please give the recipe a title.");return}
   let url=$("#e_u").value.trim().replace(/^http:\/\//i,"https://");if(url&&!/^https:\/\//i.test(url))url="https://"+url;
   const data={title,url,active:Math.max(0,Number($("#e_a").value)||0),inactive:Math.max(0,Number($("#e_ia").value)||0),days:Math.max(1,Math.round(Number($("#e_dy").value)||1)),
-    difficulty:ed.d,protein:ed.p,notes:$("#e_n").value.trim()};
+    difficulty:ed.d,protein:ed.p,category:ed.c,notes:$("#e_n").value.trim()};
   say("");
   try{if(editing)await db.doc("recipes/"+editing).update(data);else await db.collection("recipes").add({...data,added:Date.now()});show("r")}
   catch(e){fail(e)}
@@ -348,6 +353,7 @@ function chips(el,opts,get,set){el.textContent="";for(const [v,l] of opts)el.app
 chips($("#cp"),[["","All"],["meat","Meat"],["chicken","Chicken"],["fish","Fish"],["veg","Veg"],["other","Other"]],()=>F.p,v=>F.p=v);
 chips($("#ct"),[[0,"Any"],[15,"≤ 15 min"],[30,"≤ 30 min"],[45,"≤ 45 min"]],()=>F.t,v=>F.t=v);
 chips($("#cd"),[[0,"Any"],[1,"Easy"],[2,"Up to medium"]],()=>F.d,v=>F.d=v);
+chips($("#cc"),[["","Any"],...CO],()=>F.c,v=>F.c=v);
 
 $("#tR").onclick=()=>show("r");$("#tW").onclick=()=>show("w");
 $("#add").onclick=()=>openEditor(null);$("#save").onclick=save;$("#cancel").onclick=()=>{say("");show("r")};
@@ -382,7 +388,7 @@ $("#bkf").onchange=async e=>{
       const url=/^https:\/\//i.test(r.url||"")?str(r.url,2000):"";
       const active=r.active!==undefined?r.active:r.time;
       db.doc("recipes/"+r.id).set({title:str(r.title,200),url,active:num(active,0,100000),inactive:num(r.inactive,0,100000),days:num(r.days,1,60),
-        difficulty:num(r.difficulty,1,3),protein:PC[r.protein]?r.protein:"other",notes:str(r.notes,5000),added:Number(r.added)||Date.now()});nr++;
+        difficulty:num(r.difficulty,1,3),protein:PC[r.protein]?r.protein:"other",category:catOf(r.category),notes:str(r.notes,5000),added:Number(r.added)||Date.now()});nr++;
     }
     for(const [k,p] of Object.entries(d.plan||{})){
       if(!/^\d{4}-\d{2}-\d{2}$/.test(k)||!p||!idOk(p.recipeId))continue;
